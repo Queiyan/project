@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.mapper.RequestMapper">
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type=='T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='P'.toString()">
+							pet like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getMatchingList" resultType="kr.co.domain.RequestVO">
+		<![CDATA[
+		select * from tbl_request where rbno > 0 and sitter is not null and completed='0'
+		]]>
+	</select>
+
+	<select id="getListWithPaging"
+		resultType="kr.co.domain.RequestVO">
+		<![CDATA[
+		select rbno, title, content, writer, pet, img,
+		thumimg, startdatetime, enddatetime, startdate, enddate, starttime, endtime, address, detailaddress, extraaddress, payment
+		from
+		(
+		select /*+INDEX_DESC(tbl_request pk_request) */ 
+		rownum rn, rbno, title, content, writer, pet, img,
+		thumimg, startdatetime, enddatetime, startdate, enddate, starttime, endtime, address, detailaddress, extraaddress, payment
+		from 
+		tbl_request 
+		where 
+		]]>
+
+		<include refid="criteria" />
+      
+		<![CDATA[
+		rownum <= #{pageNum} * #{amount} and sitter is null)
+		where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+
+	<insert id="insert">
+		insert into
+		tbl_request(rbno,title,content,writer,pet,startdatetime,enddatetime,
+		startdate, enddate, starttime, endtime, address)
+		values(seq_request.nextval,
+		#{title},#{content},#{writer},#{pet},
+		#{startDateTime, jdbcType=DATE},#{endDateTime, jdbcType=DATE},
+		#{startDate, jdbcType=DATE}, #{endDate, jdbcType=DATE},
+		#{startTime, jdbcType=DATE}, #{endTime, jdbcType=DATE}, #{address})
+	</insert>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="rbno" order="BEFORE"
+			resultType="long">
+			select seq_request.nextval from dual
+		</selectKey>
+		insert into tbl_request(rbno, title, content, writer, pet, img,
+		thumimg, startdatetime, enddatetime, startdate, enddate, starttime,
+		endtime, address, detailaddress, extraaddress, payment)
+		values
+		(#{rbno}, #{title},
+		#{content}, #{writer}, #{pet}, #{img}, #{thumImg},
+		#{startDateTime, jdbcType=DATE},#{endDateTime, jdbcType=DATE},
+		#{startDate, jdbcType=DATE}, #{endDate, jdbcType=DATE},
+		#{startTime, jdbcType=DATE}, #{endTime, jdbcType=DATE},
+		#{address},
+		#{detailAddress}, #{extraAddress}, #{payment})
+	</insert>
+
+	<select id="read" resultType="kr.co.domain.RequestVO">
+		select *from tbl_request where
+		rbno=#{rbno}
+	</select>
+
+
+	<delete id="delete">
+		delete tbl_request where rbno=#{rbno}
+	</delete>
+
+	<update id="update">
+		update tbl_request
+		set title=#{title},
+		content=#{content},
+		writer=#{writer},
+		pet=#{pet},
+		img=#{img},
+		thumimg=#{thumImg},
+		startdatetime= #{startDateTime, jdbcType=DATE},
+		enddatetime= #{endDateTime, jdbcType=DATE},
+		startdate= #{startDate,
+		jdbcType=DATE},
+		enddate= #{endDate, jdbcType=DATE},
+		starttime= #{startTime, jdbcType=DATE},
+		endtime= #{endTime, jdbcType=DATE},
+		address= #{address},
+		detailaddress=#{detailAddress},
+		extraaddress=#{extraAddress},
+		payment=#{payment},
+		updateDate=sysdate
+		where
+		rbno=#{rbno}
+	</update>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+		select count(rbno) from tbl_request where 
+		]]>
+		<include refid="criteria" />
+		<![CDATA[
+		rbno > 0 and sitter is null
+		]]>
+	</select>
+
+
+	<update id="updateReplyCnt">
+		update tbl_request set replycnt=replycnt + #{amount}
+		where rbno=#{rbno}
+	</update>
+
+	<update id="updateSitter">
+		update tbl_request set sitter=#{sitter}
+		where
+		rbno=#{rbno}
+	</update>
+
+	<update id="iscompleted">
+		update tbl_request set completed='1'
+		where
+		rbno=#{rbno}
+	</update>
+	
+	<!-- 완료된 게시물 쿼리 -->
+	<select id="completedList" resultType="kr.co.domain.RequestVO">
+      <![CDATA[
+     select writer, content, sitter, img, pet, payment, regdate from tbl_request where completed='1' and writer=#{loginUser}
+	UNION ALL
+	select replyer as writer, reply as content, sitter, img, pettype as pet, payment, replydate as regdate from tbl_sitrequest_reply where completed='1' and replyer=#{loginUser}
+      
+      ]]>
+	</select>
+	
+		<select id="managedList" resultType="kr.co.domain.RequestVO">
+      <![CDATA[
+
+     select writer, content, sitter, img, pet, payment, regdate from tbl_request where completed='1' and sitter=#{loginUser}
+	UNION ALL
+	select replyer as writer, reply as content, sitter, img, pettype as pet, payment, replydate as regdate from tbl_sitrequest_reply where completed='1' and sitter=#{loginUser}
+      ]]>
+	</select>
+
+</mapper>

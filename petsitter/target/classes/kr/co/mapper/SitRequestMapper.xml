@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kr.co.mapper.SitRequestMapper">
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type=='T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+						<when test="type=='P'.toString()">
+							pet like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getListWithPaging"
+		resultType="kr.co.domain.SitRequestVO">
+		<![CDATA[
+		select sbno, title, content, writer, pet, img,thumimg, 
+		regdate, updatedate, 
+		address, detailaddress, extraaddress
+		from
+		(
+		select /*+INDEX_DESC(tbl_sitrequest pk_sitrequest) */ 
+		rownum rn, sbno, title, content, writer, pet, img,
+		thumimg, regdate, updatedate, address, detailaddress, extraaddress
+		from 
+		tbl_sitrequest 
+		where 
+		]]>
+
+		<include refid="criteria" />
+      
+		<![CDATA[
+		rownum <= #{pageNum} * #{amount})
+		where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="sbno" order="BEFORE"
+			resultType="long">
+			select seq_sitrequest.nextval from dual
+		</selectKey>
+		insert into tbl_sitrequest(sbno, title, content, writer, pet, img,
+		thumimg, regdate, address, detailaddress, extraaddress)
+		values (#{sbno}, #{title},
+		#{content}, #{writer}, #{pet}, #{img}, #{thumImg}, 
+		sysdate, #{address}, #{detailAddress}, #{extraAddress})
+	</insert>
+
+	<select id="read" resultType="kr.co.domain.SitRequestVO">
+		select *from tbl_sitrequest where
+		sbno=#{sbno}
+	</select>
+
+
+	<delete id="delete">
+		delete tbl_sitrequest where sbno=#{sbno}
+	</delete>
+
+	<update id="update">
+		update tbl_sitrequest
+		set title=#{title},
+		content=#{content},
+		writer=#{writer},
+		pet=#{pet},
+		img=#{img},
+		thumimg=#{thumImg},
+		updateDate=sysdate
+		where
+		sbno=#{sbno}
+	</update>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+		select count(sbno) from tbl_sitrequest where 
+		]]>
+		<include refid="criteria" />
+		<![CDATA[
+		sbno > 0
+		]]>
+	</select>
+	
+	
+	<update id="updateReplyCnt">
+	 update tbl_sitrequest set replycnt=replycnt + #{amount}
+	 where sbno=#{sbno}
+	</update>
+	
+	<update id="updateRequester">
+		update tbl_sitrequest set requester=#{requester}
+		where
+		sbno=#{sbno}
+	</update>
+	
+	<update id="iscompleted">
+		update tbl_sitrequest set completed='1'
+		where
+		sbno=#{sbno}
+	</update>
+
+</mapper>

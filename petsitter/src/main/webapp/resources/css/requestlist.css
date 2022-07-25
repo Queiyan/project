@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.card-text, .card-title{
+	overflow : hidden;
+	text-overflow: ellipsis;
+	width: 170px;
+	white-space : nowrap;
+}
+
+.page-link{
+	color: #2ac1bc;
+}

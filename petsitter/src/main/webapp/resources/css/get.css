@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+#requestListBtn, #requestModBtn, #sitrequestListBtn, #sitrequestModBtn {
+   color: white;
+}
+
+.content-name {
+   font-size: 15px;
+}
+
+.content-address {
+   font-size: 15px;
+   
+}
+.date{
+   padding: 20px 0 0 0;
+}
+.content-date {
+   font-size: 15px;
+   padding: 20px 0 0 0;
+}
+
+.request-body {
+   padding: 0px 30px 0px 30px;
+}
+
+.comment-header {
+   padding: 0.5rem 1rem;
+   margin-bottom: 0;
+   background-color: #2ac1bc;
+   border-bottom: 1px solid rgba(0, 0, 0, .125);
+   color: white;
+}
+
+#comment-card {
+   margin-bottom: 5em;
+}
+
+.comment-writer {
+   color: white;
+}
+
+#mod {
+   padding: 0.5rem 1rem;
+   margin-bottom: 0;
+   background-color: #2ac1bc;
+   border-bottom: 1px solid rgba(0, 0, 0, .125);
+   color: white;
+}
+
+.card-img-top {
+   width: 100%;
+   height: 300px;
+}
+#comment-alert{
+    width: 255px;
+    height: 10px;
+    margin: 20px;
+    resize: none;
+}
+#comment-header{
+   margin: 20px;
+}
+#addReplyBtn{
+   height: 40px;
+    background-color: #2ac1bc;
+    color: white;
+    border-bottom: 0px solid;
+    border-color: white;
+    margin:20px;
+}
+.card-header{
+   background-color: #2ac1bc;
+}
+#address-button, #address-button1{
+   background-color: #2ac1bc;
+    color: white;
+    border-bottom: 1px solid;
+    border-color: white;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+}
+.modBtn{
+   color: white;
+    background-color: #ffc107;
+    border-color: #ffc107;
+    margin: 5px;
+}
+.removeBtn{
+   color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+    margin: 5px;
+}
+.matchingBtn{
+   color: white;
+    background-color: #a300f2;
+    border-color: #a300f2;
+    margin: 5px;
+}
+.profileBtn{
+   color: white;
+    background-color: #0077ff;
+    border-color: #0077ff;
+    margin: 5px;
+}
+#profile-header{
+   background-color: #2ac1bc;
+    color: white;
+}
+.writer{
+    padding: 20px 0 20px 0;
+}
+.content-text{
+   margin: 50px 0 0 0;
+}
+#requestModBtn, #requestListBtn, #sitrequestModBtn, #sitrequestListBtn{
+   margin: 0 0 0 20px;
+}
+
+.my-rating-2{
+   margin: 10px 0 10px 0;
+}
+.partTime{
+   margin: 10px 0 0 0;
+}
+.content-date-1{
+   margin: 10px 0 0 0;
+}
+.card-text{
+   font-size: 15px;
+}
+#modal-title{
+   background-color: #2ac1bc;
+    color: white;
+}
+#modalMatchingBtn{
+   background-color: #a300f2;
+    color: white;
+}
+#modalCloseBtn{
+   background-color: #2ac1bc;
+    color: white;
+}
+#sitterModalCloseBtn{
+   background-color: #2ac1bc;
+    color: white;
+}
+#sitterInfoBtn{
+   background-color: #2ac1bc;
+    color: white;
+}

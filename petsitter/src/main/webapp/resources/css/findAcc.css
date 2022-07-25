@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.find-id {
+	cursor: pointer;
+	font-weight: bold; 
+	font-size : x-large;
+	color: white;
+	background-color: deepskyblue;
+	border-radius: 20px;
+	padding: 8px 12px 5px 12px;
+	font-size: x-large;
+}
+
+.find-pw {
+	cursor: pointer;
+	font-size: x-large;
+	color: white;
+	background-color: cornflowerblue;
+	border-radius: 20px;
+	padding: 8px 12px 5px 12px;;
+}
+
+.login-move {
+	width: 400px;
+	padding: 10px 0;
+	border-top: 1px solid #BDBDBD
+}
+
+.find-btn {
+	margin: 10px;
+	width: 440px;
+	padding: 10px 0;
+	font-size: 18px;
+	border-radius: 3px;
+	border: none;
+	background-color: #2ac1bc;
+    color: white;
+}
+#email, #userid, #emailPw{
+	width: 440px;
+    border: 1px solid #cacaca;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 5px;
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.mapper.SitterInfoMapper">
+
+<select id="getReview" resultType="kr.co.domain.SitterInfoVO">
+	select *
+	from sitter_info
+	where sitter=#{sitter} and review is not null
+</select>
+
+<insert id="insertReview">
+	insert into sitter_info(sno, sitter, requester, review, average, enddate)
+	values
+	(seq_sitter_info.nextval, #{sitter}, #{requester}, #{review}, #{average}, sysdate)
+</insert>
+
+<select id="getCount" resultType="int">
+		select count(*)
+		from sitter_info
+		where sitter=#{sitter}
+</select>
+
+<select id="getAvg" resultType="double">
+		select avg(average) as totalAvg
+		from sitter_info
+		where sitter=#{sitter} and review is not null
+</select>
+
+<select id="reviewCount" resultType="int">
+		select count(*)
+		from sitter_info
+		where sitter=#{sitter} and review is not null
+</select>
+</mapper>

@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+h1{
+	border-bottom: 1px solid gray;
+	padding:0 0 30px 0;
+}
+
+.section-form{
+	display: flex;
+}
+
+.left-section{
+	width: 20%;
+    height: 500px;
+    background: #2ac1bc;
+    color: white;
+    text-align: center;
+}
+.right-section{
+	width: 80%;
+	margin: 50px;
+	display: flex;
+}
+.left-menu{
+	padding: 30px 0 30px 0;
+}
+.right-section-left{
+	width: 30%;
+}
+.right-section-right{
+	width: 70%;
+}
+.name{
+	padding: 15px;
+}
+.modify{
+	margin: 50px 0 0 0;
+	border-radius: 5px;
+	background: white;
+}
+.modal-fullscreen-md-down{width:100vw;max-width:none;height:100%;margin:0}
+.modal-fullscreen-md-down .modal-content{height:100%;border:0;border-radius:0}
+.modal-fullscreen-md-down .modal-header{border-radius:0}
+.modal-fullscreen-md-down .modal-body{overflow-y:auto}
+.modal-fullscreen-md-down .modal-footer{border-radius:0}
+
+#validationCustom04, #validationCustom03,#validationCustom02, #validationCustom01, 
+ #sample6_address, #sample6_detailAddress, #sample6_extraAddress{
+	width:100vw;
+	max-width:100%;
+}
+.detailBtn{
+	background-color: #2ac1bc;
+    color: white;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 3px 10px 1px 10px;
+}
+.content-info{
+	font-size:10px;
+}
+.change-page{
+	background-color: aquamarine;
+}
+.modal-header{
+	background-color:2ac1bc;
+	color:white;
+}
+.col-md-2, .col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-12{
+	margin-left:20px;
+}
+.content-label, .form-address{
+	margin-top:10px;
+}
+.form-address{
+	width:100%;
+}
+#sample6_postcode{
+	margin-right:5px;
+}
+#address-forget{
+	background-color: #2ac1bc;
+    color: white;
+    border: 1px solid #c5c5c5;
+    border-radius: 3px;
+    padding: 5px;
+    padding-top: 10px;
+}

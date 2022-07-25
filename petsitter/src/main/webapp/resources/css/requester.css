@@ -1,0 +1,40 @@
+@charset "UTF-8";
+#requester-left{
+   width: auto;
+    height: 200px;
+    padding: 20px 0px 20px 20px;
+}
+#requester-right{
+   width: auto;
+    height: 200px;
+    padding: 20px 0px 20px 20px;
+}
+.card-info{
+   height: 28%;
+}
+.modal-header{
+   background-color: #2ac1bc;
+    color: white;
+}
+#requestCloseBtn{
+   background-color: #2ac1bc;
+    color: white;
+}
+#modalCloseBtn{
+   background-color: #2ac1bc;
+    color: white;
+}
+#manager-info-left, #manager-info-right{
+   background-color: #2ac1bc;
+    color: white;
+}
+#compleat-left, #compleat-right{
+   background-color: #2ac1bc;
+    color: white;
+}
+.section0{
+   width: 2px;
+    height: 100%;
+    float: left;
+    background-color: #bcbcbc;
+}

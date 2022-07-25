@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.mapper.MemberMapper">
+	<resultMap type="kr.co.domain.AuthVO" id="authMap">
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />
+	</resultMap>
+
+	<resultMap type="kr.co.domain.MemberVO" id="memberMap">
+		<id property="userid" column="userid" />
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="userName" column="username" />
+		<result property="phone" column="phone" />
+		<result property="gender" column="gender" />
+		<result property="nick" column="nick" />
+		<result property="regDate" column="regdate" />
+		<result property="updateDate" column="updatedate" />
+		<result property="email" column="email" />
+		<result property="zipCode" column="zipcode" />
+		<result property="address" column="address" />
+		<result property="detailAddress" column="detailaddress" />
+		<result property="extraAddress" column="extraaddress" />
+		<collection property="authList" resultMap="authMap" />
+	</resultMap>
+
+	<select id="read" resultMap="memberMap">
+		select
+		mem.userid, userpw, username, phone, gender, nick, email, zipcode, address, detailaddress, extraaddress,
+		enabled, regdate, updatedate, auth
+		from
+		tbl_member mem left outer join
+		tbl_member_auth auth on mem.userid=auth.userid
+		where mem.userid= #{userid}
+	</select>	
+	
+	
+	<insert id="member">
+		insert into tbl_member (userid, userpw, username, phone, gender, 
+		email, nick, zipcode, address, detailaddress, extraaddress
+		) values (#{userid}, #{userpw}, #{userName}, #{phone}, #{gender}, #{email},
+		#{nick}, #{zipCode}, #{address}, #{detailAddress}, #{extraAddress}
+		)
+	</insert>
+	
+	<!-- 마이페이지 정보 -->
+   <select id="mypageInfo" resultType="kr.co.domain.MemberVO">
+      select userid, userName, nick, email, phone, zipcode, address, detailaddress, extraaddress, gender , userpoint
+      from tbl_member
+      where userid = #{userid} 
+   </select>
+	
+	<update id="memberUpdate">
+		update tbl_member set 
+		email=#{email},
+		nick=#{nick},
+		phone=#{phone},
+		zipcode=#{zipCode},
+		address=#{address},
+		detailaddress=#{detailAddress},
+		extraaddress=#{extraAddress},
+		updatedate=sysdate
+		where userid = #{userid}
+	</update>
+	
+	<insert id="memberAuth">
+		insert into tbl_member_auth (userid) values (#{userid})
+	</insert>
+	
+	<select id="useridcheck" resultType="int">
+		select count(*) from tbl_member where userid=#{userid}
+	</select>
+	
+	<select id="findId" resultType="string">
+      select userid from tbl_member where email=#{email}
+   </select>
+
+   <select id="findPw" parameterType="map" resultType="int">
+      select count(userpw) from tbl_member where userid=#{userid} and email=#{email}
+   </select>
+   
+   <update id="pwMailSend">
+      update tbl_member set userpw=#{userpw} where userid=#{userid} and email=#{email}
+   </update>
+   
+   <select id="matchingInfo"  resultType="kr.co.domain.MemberVO">
+       select userid, phone from tbl_member
+   </select>
+	<select id="emCheck" resultType="int">
+      select count(*) from tbl_member
+      where email = #{email}
+   </select>
+	 <!--회원비밀번호 수정-->
+   <update id="pwUpdate">
+      update tbl_member set 
+      userpw=#{userpw}
+      where userid = #{userid}
+   </update>
+
+   <select id="pwCheck" resultType="string">
+      select userpw from tbl_member
+      where userid = #{userid}
+   </select>
+   
+   <update id="chargePoint">
+		update tbl_member set 
+     	userpoint=#{userPoint}
+     	where userid = #{userid}
+	</update>
+	
+   <select id="getPoint" resultType="int">
+      select userpoint from tbl_member
+      where userid = #{userid}
+   </select>
+   
+    <select id="admin" resultType="kr.co.domain.MemberVO">
+      select userid, userName, email, phone, gender
+      from tbl_member
+   </select>
+   
+   <delete id="delete">
+   		delete from tbl_member where userid=#{userid}
+   </delete>
+   
+   <select id="adminId" resultType="string">
+		select userid from tbl_member_auth where auth='admin'
+	</select>
+	
+</mapper>

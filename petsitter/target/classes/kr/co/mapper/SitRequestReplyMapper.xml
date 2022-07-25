@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.mapper.SitRequestReplyMapper">
+
+   <insert id="insert">
+      insert into tbl_sitrequest_reply
+      (rsbno,sbno,reply,replyer,address, detailaddress, extraaddress, 
+      pettype, startdatetime, enddatetime, startdate, enddate, starttime, endtime ,img, thumbimg, payment)
+      values
+      (seq_SitRequest_reply.nextval, #{sbno},#{reply, jdbcType=VARCHAR},#{replyer},
+      #{address, jdbcType=VARCHAR}, #{detailAddress, jdbcType=VARCHAR},#{extraAddress, jdbcType=VARCHAR},#{petType, jdbcType=VARCHAR},
+      #{startDateTime, jdbcType=DATE},#{endDateTime, jdbcType=DATE},#{startDate, jdbcType=DATE},#{endDate, jdbcType=DATE},
+      #{startTime, jdbcType=DATE},#{endTime, jdbcType=DATE},#{img},#{thumbImg},#{payment})
+   </insert>
+
+   <select id="read" resultType="kr.co.domain.SitRequestReplyVO">
+      select * from tbl_sitrequest_reply
+      where
+      rsbno=#{rsbno}
+   </select>
+
+   <delete id="delete">
+      delete from tbl_sitrequest_reply where rsbno=#{rsbno}
+   </delete>
+
+   <update id="update">
+      update tbl_sitrequest_reply set reply=#{reply},
+      pettype=#{petType},
+      address=#{address},
+      detailAddress=#{detailAddress},
+      extraAddress=#{extraAddress},
+      startdatetime= #{startDateTime, jdbcType=DATE},
+      enddatetime= #{endDateTime, jdbcType=DATE},
+      startdate= #{startDate, jdbcType=DATE}, 
+      enddate= #{endDate, jdbcType=DATE}, 
+      starttime= #{startTime, jdbcType=DATE}, 
+      endtime= #{endTime, jdbcType=DATE},
+      payment = #{payment},
+      updatedate=sysdate
+      where rsbno = #{rsbno}
+   </update>
+
+   <select id="getListWithPaging"
+      resultType="kr.co.domain.SitRequestReplyVO">
+      select rsbno, sbno, reply, replyer, replydate, updatedate,address,detailAddress,extraAddress, 
+      pettype, startdatetime, enddatetime, startdate, enddate, starttime, endtime, img, thumbimg, payment
+      from 
+      <![CDATA[
+      (select /*+INDEX(tbl_sitrequest_reply pk_sit_reply) */
+      rownum rn, rsbno, sbno, reply,replyer,replyDate, updatedate,address,detailAddress,extraAddress, 
+      pettype, startdatetime, enddatetime, startdate, enddate, starttime, endtime, img, thumbImg, payment   
+      from tbl_sitrequest_reply
+      where sbno=#{sbno} and sitter is null
+      and rsbno > 0
+      and rownum <= #{cri.pageNum} * #{cri.amount} order by rsbno
+      ) where rn > (#{cri.pageNum}-1)* #{cri.amount}
+      ]]>
+   </select>
+   
+   <select id="getCountBySbno" resultType="int">
+   select count(rsbno) from tbl_sitrequest_reply where sbno=#{sbno} 
+   </select>
+   
+   
+   <update id="updateSitter">
+      update tbl_sitrequest_reply set sitter=#{sitter}
+      where
+      rsbno=#{rsbno}
+   </update>
+   
+   <select id="matchingReply" resultType="kr.co.domain.SitRequestReplyVO">
+   <![CDATA[
+      select * from tbl_sitrequest_reply where sitter is not null and completed='0'
+      ]]>
+   </select>
+   
+   	<update id="iscompleted">
+		update tbl_sitrequest_reply set completed='1'
+		where
+		rsbno=#{rsbno}
+	</update>
+
+   
+   
+   
+</mapper>

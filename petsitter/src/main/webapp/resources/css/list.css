@@ -1,0 +1,94 @@
+@charset "UTF-8";
+a:visited {
+	color:black;
+	text-decoration: none;
+}
+a:link {
+	color:black;
+	text-decoration: none;
+}
+a {
+  text-decoration: none;
+  color:black;
+}
+@font-face {
+    font-family: 'HancomUljuBangudae';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205-2@1.0/HancomUljuBangudae.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GowunBatang-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Dajungdagam';
+    src: url('/resources/font/SANGJU-Dajungdagam.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BMDOHYEON';
+    src: url('/resources/font/BMDOHYEON.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+#regBtn{
+    color: white;
+    background-color: #2ac1bc;
+    font-size: large;
+    padding: 3px 20px 3px 20px;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    margin-left: 10px;
+}
+
+.card{
+	margin: 20px;
+}
+
+#searchForm{
+	height: 40px;
+	text-align:center;
+}
+.searchForm{
+	height: 100%;
+	
+}
+#searchBtn{
+	background-color: #2ac1bc;
+    color: white;
+    padding: 3px 20px 3px 20px;
+    margin-left: 10px;
+    height: 100%;
+}
+select {
+    padding: 3px 0px 3px 10px;
+}
+.keyword-form{
+	width: 40%;
+    height: 100%;
+}
+.type-form{
+	height: 100%;
+}
+.card-title{
+	font-size: 14px;
+}
+.card-text{
+	font-size: 12px;
+	margin: 0 0 5px 0;
+}
+
+img{
+
+}
+#getpage{
+	
+}
+.page-link{
+	color: #2ac1bc;
+}

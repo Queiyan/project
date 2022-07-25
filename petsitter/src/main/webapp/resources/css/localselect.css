@@ -1,0 +1,28 @@
+@charset "UTF-8";
+.local{
+   margin: 10px 0 20px 0;
+}
+
+#addressRegion2{
+   width: 100px;
+   border: 1px solid #ced4da;
+   color: gray;
+}
+
+#addressDo2{
+   width: 130px;
+   border: 1px solid #ced4da;
+   color: gray;
+}
+
+#addressSiGunGu2{
+   width: 100px;
+   border: 1px solid #ced4da;
+   color: gray;
+}
+
+.local-details{
+   width: 613px;
+   height: 26px;
+   border: 1px solid #ced4da;
+}

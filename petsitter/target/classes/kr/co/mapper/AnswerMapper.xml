@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.AnswerMapper">
+
+<sql id="criteria">
+      <trim prefix="(" suffix=") AND " prefixOverrides="OR">
+         <foreach item="type" collection="typeArr">
+            <trim prefix="OR">
+               <choose>
+                  <when test="type=='T'.toString()">
+                     title like '%'||#{keyword}||'%'
+                  </when>
+                  <when test="type=='C'.toString()">
+                     content like '%'||#{keyword}||'%'
+                  </when>
+                  <when test="type=='W'.toString()">
+                     writer like '%'||#{keyword}||'%'
+                  </when>
+               </choose>
+            </trim>
+         </foreach>
+      </trim>
+   </sql>
+
+	<select id="getList" resultType="kr.co.domain.AnswerVO">
+		<![CDATA[
+		select * from tbl_answer where abno > 0
+		]]>
+	</select>
+	<select id="getListWithPaging"
+		resultType="kr.co.domain.AnswerVO">
+		<![CDATA[
+		select abno, title, content, writer, img,
+		thumimg
+		from
+		(
+		select /*+INDEX_DESC(tbl_request pk_request) */ 
+		rownum rn, abno, title, content, writer, img,
+		thumimg
+		from 
+		tbl_answer 
+		where 
+		]]>
+      
+			<include refid="criteria" />
+      
+		<![CDATA[
+		rownum <= #{pageNum} * #{amount})
+		where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	<insert id="insert">
+		insert into tbl_answer(abno, title, content, writer)
+		values (seq_answer.nextval, #{title},#{content},
+		#{writer})
+	</insert>
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="abno" order="BEFORE"
+			resultType="long">
+			select seq_answer.nextval from dual
+		</selectKey>
+
+		insert into tbl_answer(abno, title, content, writer)
+		values (#{abno}, #{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="read" resultType="kr.co.domain.AnswerVO">
+		select * from tbl_answer where
+		abno=#{abno}
+	</select>
+
+	<delete id="delete">
+		delete tbl_answer where abno=#{abno}
+	</delete>
+
+	<update id="update">
+		update tbl_answer
+		set title=#{title},
+		content=#{content},
+		writer=#{writer},
+		updateDate=sysdate
+		where
+		abno=#{abno}
+	</update>
+
+<select id="getTotalCount" resultType="int">
+		<![CDATA[
+		select count(abno) from tbl_answer where 
+		]]>
+			<include refid="criteria" />
+		<![CDATA[
+		abno > 0
+		]]>
+	</select>
+
+</mapper>

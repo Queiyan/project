@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.mapper.RequestReplyMapper">
+
+	<insert id="insert">
+		insert into tbl_request_reply
+		(rrno,rbno,reply,replyer)
+		values
+		(seq_request_reply.nextval,
+		#{rbno},#{reply},#{replyer})
+	</insert>
+
+	<select id="read" resultType="kr.co.domain.RequestReplyVO">
+		select * from tbl_request_reply
+		where
+		rrno=#{rrno}
+	</select>
+
+	<delete id="delete">
+		delete from tbl_request_reply where rrno=#{rrno}
+	</delete>
+
+	<update id="update">
+		update tbl_request_reply set reply=#{reply},
+		updatedate=sysdate
+		where rrno = #{rrno}
+	</update>
+
+	<select id="getListWithPaging"
+		resultType="kr.co.domain.RequestReplyVO">
+		select rrno, rbno, reply, replyer, replydate, updatedate
+		from 
+		<![CDATA[
+		(select /*+INDEX(tbl_request_reply pk_reply) */
+		rownum rn, rrno, rbno, reply,replyer,replyDate, updatedate
+		from tbl_request_reply
+		where rbno=#{rbno}
+		and rrno > 0
+		and rownum <= #{cri.pageNum} * #{cri.amount} order by rrno
+		) where rn > (#{cri.pageNum}-1)* #{cri.amount}
+		]]>
+	</select>
+	
+	<select id="getCountByRbno" resultType="int">
+	select count(rrno) from tbl_request_reply where rbno=#{rbno} 
+	</select>
+
+</mapper>
